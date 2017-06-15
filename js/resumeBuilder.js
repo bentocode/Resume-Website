@@ -14,7 +14,7 @@ var bio = {
         "twitter": "bentocoder",
         "blog": "bentocode"
     },
-    "bioPic": "images/ben_headshot.jpg",
+    "biopic": "images/ben_headshot.jpg",
     "welcomeMessage": "Detail-oriented, technically accomplished information" +
     "technology professional with more than 10 years experience",
     "skills": ["HTML5", "CSS3", "Javascript", "Responsive Web Design",
@@ -27,21 +27,21 @@ var projects = {
         "title": "Movie Trailer Website",
         "dates": "April 2017",
         "description": "Python generated website to show movie trailers.",
-        "image": "images/movie_trailer_project.jpg",
+        "images": ["images/movie_trailer_project.jpg"],
         "url": "https://github.com/bentocode/Movie-Trailer-Site"
     }, {
         "title": "Personal Portfolio Website",
         "dates": "May 2017",
         "description": "Portfolio Website created with HTML and CSS for" +
         "Udacity Full Stack Developer Nanodegree.",
-        "image": "images/portfolio_project.jpg",
+        "images": ["images/portfolio_project.jpg"],
         "url": "https://github.com/bentocode/Portfolio-Site"
     }, {
         "title": "Personal Resume Website",
         "dates": "June 2017",
         "description": "Resume Website created with HTML, CSS and Javascript" +
         "for Udacity Front End Developer Nanodegree",
-        "image": "images/resume_project.jpg",
+        "images": ["images/resume_project.jpg"],
         "url": "https://github.com/bentocode/Resume-Site"
     }]
 };
@@ -94,17 +94,17 @@ var education = {
         "dates": "1991 to 1993",
         "location": "Tampa, FL",
         "degree": "Bachelor of Arts",
-        "major": "Liberal Arts"
+        "majors": ["Liberal Arts"]
     }, {
         "name": "Universiy of Paris",
         "dates": "1992",
         "location": "Paris, France",
         "degree": "Certificate d'Etude",
-        "major": "French History"
+        "majors": ["French History"]
     }],
     "onlineCourses": [{
         "school": "Udacity",
-        "date": "April 2017 to October 2017",
+        "dates": "April 2017 to October 2017",
         "title": "Front End Developer Nanodegree",
         "url": "https://www.udacity.com"
     }]
@@ -123,7 +123,7 @@ bio.display = function() {
     var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
     var formattedBlog = HTMLblog.replace("%data%", bio.contacts.blog);
     var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
-    var formattedBiophoto = HTMLbioPic.replace("%data%", bio.bioPic);
+    var formattedBiophoto = HTMLbioPic.replace("%data%", bio.biopic);
     var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
     var formattedEmailIcon = HTMLemailIcon.replace("%data%", bio.contacts.email);
     var formattedTwitterIcon = HTMLtwitterIcon.replace("%data%", bio.contacts.twitter);
@@ -155,11 +155,12 @@ bio.display();
 
 // Function to display formatted work info on index.html
 work.display = function() {
-    // create new div for work experience
-    $("#workExperience").append(HTMLworkStart);
 
     // iterate through the jobs array to format and append work history info
     work.jobs.forEach(function(job) {
+        // create new div for work experience
+        $("#workExperience").append(HTMLworkStart);
+
         // format and concat employer and title
         var formattedEmployer = HTMLworkEmployer.replace("%data%", job.employer);
         var formattedTitle = HTMLworkTitle.replace("%data%", job.title);
@@ -184,8 +185,6 @@ work.display();
 
 // Function to display formatted projects info on index.html
 projects.display = function() {
-    // create new div for projects
-    $("#projects").append(HTMLprojectStart);
 
     // iterate through projects object to format and append project info to page
     projects.projects.forEach(function(project){
@@ -193,10 +192,17 @@ projects.display = function() {
         var formattedDates = HTMLprojectDates.replace("%data%", project.dates);
         var formattedDescription = HTMLprojectDescription.replace("%data%",
             project.description);
-        var formattedImage = HTMLprojectImage.replace("%data%", project.image);
+        var formattedImage = HTMLprojectImage.replace("%data%", project.images);
+        // create new div for projects
+        $("#projects").append(HTMLprojectStart);
 
         $(".project-entry:last").append(formattedTitle,formattedDates,
             formattedDescription, formattedImage);
+
+                project.images.forEach(function(image) {
+            var formattedProjectImage = HTMLprojectImage.replace("%data%", image);
+            $('.project-entry:last').append(formattedProjectImage);
+        });
     });
 
 };
@@ -205,8 +211,7 @@ projects.display();
 
 // Function to display formatted education info on index.html
 education.display = function() {
-    // create new div for education
-$("#education").append(HTMLschoolStart);
+
 
     // iterate through education object to format and append info to page
     // forEach loop to iterate brick and mortar schools
@@ -217,6 +222,8 @@ $("#education").append(HTMLschoolStart);
         var formattedLocation = HTMLschoolLocation.replace("%data%", school.location);
         var formattedMajor = HTMLschoolMajor.replace("%data%", school.major);
 
+        // create new div for education
+        $("#education").append(HTMLschoolStart);
         $(".education-entry:last").append(formattedSchool, formattedDegree,
             formattedDates, formattedLocation, formattedMajor);
     });
